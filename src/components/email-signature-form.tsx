@@ -2,23 +2,17 @@
 
 import * as React from 'react'
 import { useRef, useState } from 'react'
-import { Bell, Check, Copy, Settings } from 'lucide-react'
+import { Bell, Check, Copy, Settings, Video } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
 } from '@/components/ui/card'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Skeleton } from "@/components/ui/skeleton"
+import { Switch } from "@/components/ui/switch"
 
 export function EmailSignatureForm() {
   const [formData, setFormData] = React.useState({
@@ -28,6 +22,8 @@ export function EmailSignatureForm() {
   })
   const [phoneNumber, setPhoneNumber] = React.useState('')
   const [isCopied, setIsCopied] = useState(false)
+  const [includeReel, setIncludeReel] = useState(false)
+  const [reelUrl, setReelUrl] = useState('')
 
   const signatureRef = useRef<HTMLDivElement>(null)
 
@@ -48,66 +44,106 @@ export function EmailSignatureForm() {
     const phone = phoneNumber ? `+34 ${phoneNumber}` : '+34 666 777 888';
     const email = formData.email || 'hello@redbility.com';
 
+    const reelSection = includeReel && reelUrl ? `
+      <div style="margin-top: 24px;">
+        <a href="${reelUrl}" 
+           target="_blank" 
+           style="color: rgb(255, 0, 78); font-size: 12px; font-weight: 400; line-height: 24px; text-decoration: none;">
+          <span style="display: inline-block; vertical-align: middle;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" style="display: inline-block; vertical-align: middle; margin-right: 4px;">
+              <path d="M23 7L16 12L23 17V7Z" fill="#FF004E"/>
+              <rect x="1" y="5" width="15" height="14" rx="2" ry="2" stroke="#FF004E" fill="none" stroke-width="2"/>
+            </svg>
+            Mira nuestro nuevo reel de proyectos
+          </span>
+        </a>
+      </div>
+    ` : '';
+
     return `
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Firma redbility</title>
-  </head>
-  <body>
-    <p>
-      <font style="font-family: Verdana; font-size: 12px;">--</font>
-    </p>
-    <p style="margin: 10px 0 0 0;">
-      <font style="font-family: Verdana; font-weight: bold; font-size: 14px; color: #2f272a;">${name}</font>
-    </p>
-    <p style="margin: 4px 0 0 0;">
-      <font style="font-family: Verdana; font-weight: bold; font-size: 12px; color: #2f272a;">${position}</font>
-    </p>
-    <p style="margin: 16px 0 4px 0; vertical-align: top;">
-      <font style="font-family: Verdana; font-weight: normal; font-size: 12px; color: #2f272a;">
-        <a href="tel:${phone}" style="color: #000001; text-decoration: none !important;">${phone}</a>
-      </font>
-    </p>
-    <p style="margin: 4px 4px 0 0; vertical-align: top;">
-      <a href="mailto:${email}" style="text-decoration: none !important;">
-        <font style="font-family: Verdana; font-weight: normal; font-size: 12px; color: #2f272a;">${email}</font>
-      </a>
-    </p>
-    <p style="margin: 4px 4px 0px 0;">
-      <a target="_blank" href="http://www.redbility.com/" style="font-family: Verdana; font-weight: normal; font-size: 12px; color: #ff004e; text-decoration: none !important;">www.redbility.com</a>
-    </p>
-    <p style="margin: 4px 4px 24px 0;">
-      <a target="_blank" href="https://www.google.es/maps/place/Redbility/@40.429085,-3.675137,15z/data=!4m6!3m5!1s0xd422977a03322ff:0x8c22c5e6c45f1170!8m2!3d40.429085!4d-3.675137!16s%2Fg%2F1tyyyf3q?entry=ttu" style="font-family: Verdana; font-weight: normal; font-size: 12px; color: #2f272a; text-decoration: none !important;">Madrid</a>
-      <a target="_blank" href="https://www.google.com/maps/place/Jungle+Barcelona/@41.398794,2.1906384,15z/data=!4m6!3m5!1s0x12a4a33a00215289:0xe3ef4c6ec6b5fc38!8m2!3d41.398794!4d2.1906384!16s%2Fg%2F11v9wlgsw9?entry=ttu" style="font-family: Verdana; font-weight: normal; font-size: 12px; color: #2f272a; text-decoration: none !important;"> · Barcelona</a>
-    </p>
-  </body>
-</html>
-  `;
+      <div style="font-family: Verdana, Arial, sans-serif; margin-top: 14px;">
+        <div style="color: rgb(0, 0, 0); font-size: 10px; font-weight: 400; line-height: 18px;">
+          --
+        </div>
+        
+        <div style="color: rgb(0, 0, 0); font-size: 14px; font-weight: 700; line-height: 24px; margin-top: 5px;">
+          ${name}
+        </div>
+        
+        <div style="color: rgb(0, 0, 0); font-size: 12px; font-weight: 700; line-height: 24px;">
+          ${position}
+        </div>
+        
+        <div style="margin-top: 10px;">
+          <a href="tel:+34${phoneNumber.replace(/\s/g, '')}" 
+             style="color: rgb(0, 0, 0); font-size: 12px; font-weight: 400; line-height: 24px; text-decoration: none;">
+            ${phone}
+          </a>
+        </div>
+        
+        <div>
+          <a href="mailto:${email}" 
+             style="color: rgb(0, 0, 0); font-size: 12px; font-weight: 400; line-height: 24px; text-decoration: none;">
+            ${email}
+          </a>
+        </div>
+        
+        <div>
+          <a href="http://www.redbility.com/" 
+             target="_blank" 
+             style="color: rgb(255, 0, 78); font-size: 12px; font-weight: 400; line-height: 24px; text-decoration: none;">
+            www.redbility.com
+          </a>
+        </div>
+        
+        <div style="color: rgb(0, 0, 0); font-size: 12px; font-weight: 400; line-height: 24px;">
+          <a href="https://www.google.es/maps/place/Redbility/@40.429085,-3.675137,15z" 
+             target="_blank" 
+             style="color: rgb(0, 0, 0); text-decoration: none;">Madrid</a>
+          <span> · </span>
+          <a href="https://www.google.com/maps/place/Jungle+Barcelona/@41.398794,2.1906384,15z" 
+             target="_blank" 
+             style="color: rgb(0, 0, 0); text-decoration: none;">Barcelona</a>
+        </div>
+        ${reelSection}
+      </div>
+    `.trim();
   };
 
   const handleCopySignature = () => {
     const signatureHTML = generateSignatureHTML();
-
-    const tempElement = document.createElement('div');
-    tempElement.innerHTML = signatureHTML;
-    document.body.appendChild(tempElement);
-
-    const range = document.createRange();
-    range.selectNodeContents(tempElement);
-    const selection = window.getSelection();
-    selection?.removeAllRanges();
-    selection?.addRange(range);
-
-    document.execCommand('copy');
-
-    document.body.removeChild(tempElement);
-    selection?.removeAllRanges();
-
-    setIsCopied(true);
-    setTimeout(() => setIsCopied(false), 3000); // Reset after 3 seconds
+    
+    // Crear un elemento div temporal
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = signatureHTML;
+    
+    // Crear un blob con el contenido HTML
+    const blob = new Blob([tempDiv.innerHTML], { type: 'text/html' });
+    
+    // Crear un objeto de datos para el portapapeles
+    const clipboardData = new ClipboardItem({
+      'text/html': blob,
+      'text/plain': new Blob([tempDiv.innerText], { type: 'text/plain' })
+    });
+    
+    // Copiar al portapapeles usando la API moderna
+    navigator.clipboard.write([clipboardData])
+      .then(() => {
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 3000);
+      })
+      .catch((err) => {
+        console.error('Error al copiar la firma:', err);
+        // Fallback al método antiguo
+        const textarea = document.createElement('textarea');
+        textarea.innerHTML = signatureHTML;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 3000);
+      });
   };
 
   return (
@@ -116,16 +152,11 @@ export function EmailSignatureForm() {
         {/* Header */}
         <header className="border-b">
           <div className="mx-5 md:mx-20 flex h-16 items-center justify-between">
-            <div className="text-3xl font-bold text-[#ff0046]">R</div>
+            <div className="flex items-center gap-4">
+              <div className="text-3xl font-bold text-[#ff0046]">R</div>
+              <div className="text-xs font-semibold tracking-widest uppercase">Firma de correo</div>
+            </div>
             <div className="flex items-center">
-              <div className="flex space-x-1 mr-4">
-                <Button variant="ghost" size="icon">
-                  <Settings className="h-5 w-5" />
-                </Button>
-                <Button variant="ghost" size="icon">
-                  <Bell className="h-5 w-5" />
-                </Button>
-              </div>
               <Avatar>
                 <AvatarImage src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/avatar-ierycApZ3Gc5h6zAmtI6v4Ptu3Y6cy.png" />
                 <AvatarFallback>NA</AvatarFallback>
@@ -161,19 +192,13 @@ export function EmailSignatureForm() {
 
                   <div className="space-y-2">
                     <Label htmlFor="position" className="text-[14px] font-medium">Cargo</Label>
-                    <Select
+                    <Input
+                      id="position"
+                      placeholder="Introduce tu cargo"
                       value={formData.position}
-                      onValueChange={(value) => setFormData({ ...formData, position: value })}
-                    >
-                      <SelectTrigger id="position" className="text-[16px] font-normal">
-                        <SelectValue placeholder="Selecciona un cargo" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="UX Consultant">UX Consultant</SelectItem>
-                        <SelectItem value="Product Designer">Product Designer</SelectItem>
-                        <SelectItem value="UI Designer">UI Designer</SelectItem>
-                      </SelectContent>
-                    </Select>
+                      onChange={(e) => setFormData({ ...formData, position: e.target.value })}
+                      className="text-[16px] font-normal"
+                    />
                   </div>
 
                   <div className="space-y-2">
@@ -201,6 +226,38 @@ export function EmailSignatureForm() {
                       className="text-[16px] font-normal"
                     />
                   </div>
+
+                  <div className="rounded-lg border p-4 space-y-4">
+                    <div className="flex items-center justify-between space-x-2">
+                      <div className="space-y-0.5">
+                        <Label htmlFor="reel" className="text-base">
+                          Incluir reel
+                        </Label>
+                        <div className="text-[14px] text-muted-foreground">
+                          Añade un enlace al reel de proyectos en tu firma
+                        </div>
+                      </div>
+                      <Switch
+                        id="reel"
+                        checked={includeReel}
+                        onCheckedChange={setIncludeReel}
+                        className="data-[state=checked]:bg-[#FF004E]"
+                      />
+                    </div>
+
+                    {includeReel && (
+                      <div className="space-y-2">
+                        <Input
+                          id="reelUrl"
+                          type="url"
+                          placeholder="Pega aquí la url del vídeo"
+                          value={reelUrl}
+                          onChange={(e) => setReelUrl(e.target.value)}
+                          className="text-[16px] font-normal"
+                        />
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
 
@@ -225,27 +282,67 @@ export function EmailSignatureForm() {
                         <Skeleton className="h-4 w-32 animate-none" />
                       </div>
 
-                      <div ref={signatureRef} className="pt-2 font-sans">
-                        <p className="text-xs mb-2">--</p>
-                        <p className="text-sm font-bold text-[#2f272a] mb-1">{formData.name || 'Nombre Apellido'}</p>
-                        <p className="text-xs font-bold text-[#2f272a] mb-4">{formData.position || 'UX Consultant'}</p>
-                        <p className="text-xs text-[#2f272a] mb-1">
-                          <a href={`tel:+34${phoneNumber.replace(/\s/g, '')}`} className="text-[#000001] no-underline">
+                      <div ref={signatureRef} style={{ fontFamily: 'Verdana, Arial, sans-serif', marginTop: '14px' }}>
+                        <div style={{ fontSize: '10px', lineHeight: '18px' }}>--</div>
+                        
+                        <div style={{ fontSize: '14px', fontWeight: 700, lineHeight: '24px', marginTop: '5px' }}>
+                          {formData.name || 'Nombre Apellido'}
+                        </div>
+                        
+                        <div style={{ fontSize: '12px', fontWeight: 700, lineHeight: '24px' }}>
+                          {formData.position || 'UX Consultant'}
+                        </div>
+                        
+                        <div style={{ marginTop: '10px' }}>
+                          <a href={`tel:+34${phoneNumber.replace(/\s/g, '')}`}
+                             style={{ fontSize: '12px', lineHeight: '24px', textDecoration: 'none', color: 'black' }}>
                             {phoneNumber ? `+34 ${phoneNumber}` : '+34 666 777 888'}
                           </a>
-                        </p>
-                        <p className="text-xs text-[#2f272a] mb-1">
-                          <a href={`mailto:${formData.email}`} className="text-[#2f272a] no-underline">{formData.email || 'hello@redbility.com'}</a>
-                        </p>
-                        <p className="text-xs mb-1">
-                          <a href="http://www.redbility.com/" target="_blank" rel="noopener noreferrer" className="text-[#ff004e] no-underline">www.redbility.com</a>
-                        </p>
-                        <p className="text-xs text-[#2f272a]">
-                          <a href="https://www.google.es/maps/place/Redbility/@40.429085,-3.675137,15z/data=!4m6!3m5!1s0xd422977a03322ff:0x8c22c5e6c45f1170!8m2!3d40.429085!4d-3.675137!16s%2Fg%2F1tyyyf3q?entry=ttu" target="_blank" rel="noopener noreferrer" className="text-[#2f272a] no-underline">Madrid</a>
-                          {' · '}
-                          <a href="https://www.google.com/maps/place/Jungle+Barcelona/@41.398794,2.1906384,15z/data=!4m6!3m5!1s0x12a4a33a00215289:0xe3ef4c6ec6b5fc38!8m2!3d41.398794!4d2.1906384!16s%2Fg%2F11v9wlgsw9?entry=ttu" target="_blank" rel="noopener noreferrer" className="text-[#2f272a] no-underline">Barcelona</a>
-                        </p>
-                      
+                        </div>
+                        
+                        <div>
+                          <a href={`mailto:${formData.email}`}
+                             style={{ fontSize: '12px', lineHeight: '24px', textDecoration: 'none', color: 'black' }}>
+                            {formData.email || 'hello@redbility.com'}
+                          </a>
+                        </div>
+                        
+                        <div>
+                          <a href="http://www.redbility.com/"
+                             target="_blank"
+                             style={{ fontSize: '12px', lineHeight: '24px', textDecoration: 'none', color: '#FF004E' }}>
+                            www.redbility.com
+                          </a>
+                        </div>
+                        
+                        <div style={{ fontSize: '12px', lineHeight: '24px' }}>
+                          <a href="https://www.google.es/maps/place/Redbility/@40.429085,-3.675137,15z"
+                             target="_blank"
+                             style={{ textDecoration: 'none', color: 'black' }}>
+                            Madrid
+                          </a>
+                          <span> · </span>
+                          <a href="https://www.google.com/maps/place/Jungle+Barcelona/@41.398794,2.1906384,15z"
+                             target="_blank"
+                             style={{ textDecoration: 'none', color: 'black' }}>
+                            Barcelona
+                          </a>
+                        </div>
+                        {includeReel && reelUrl && (
+                          <div style={{ marginTop: '24px' }}>
+                            <a href={reelUrl}
+                               target="_blank"
+                               style={{ fontSize: '12px', lineHeight: '24px', textDecoration: 'none', color: '#FF004E' }}>
+                              <span style={{ display: 'inline-block', verticalAlign: 'middle' }}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '4px' }}>
+                                  <path d="M23 7L16 12L23 17V7Z" fill="#FF004E"/>
+                                  <rect x="1" y="5" width="15" height="14" rx="2" ry="2" stroke="#FF004E" fill="none" strokeWidth="2"/>
+                                </svg>
+                                Mira nuestro nuevo reel de proyectos
+                              </span>
+                            </a>
+                          </div>
+                        )}
                       </div>
                     </CardContent>
                   </Card>
@@ -267,6 +364,9 @@ export function EmailSignatureForm() {
                       </>
                     )}
                   </Button>
+                  <p className="text-xs text-gray-500 mt-4 text-center">
+                    Configura tu firma en Gmail utilizando Safari para que se visualice correctamente
+                  </p>
                 </div>
               </div>
             </div>

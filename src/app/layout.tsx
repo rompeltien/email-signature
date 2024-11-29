@@ -15,8 +15,18 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Redbility - Email Signature",
-  description: "Email signature generator by Redbility",
+  title: "Firma de correo",
+  description: "Generador de firmas de correo electrónico",
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/icon.png', type: 'image/png', sizes: '32x32' },
+      { url: '/icon-192.png', type: 'image/png', sizes: '192x192' },
+    ],
+    apple: [
+      { url: '/apple-icon.png', sizes: '180x180' },
+    ],
+  },
 };
 
 export default function RootLayout({
