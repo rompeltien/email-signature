@@ -28,10 +28,11 @@ export const metadata: Metadata = {
   description: "Generador de firmas de correo electrónico",
   icons: {
     icon: [
-      { url: '/favicon.ico' },
+      { url: '/favicon.ico', sizes: 'any' },
       { url: '/icon.png', type: 'image/png', sizes: '32x32' },
       { url: '/icon-192.png', type: 'image/png', sizes: '192x192' },
     ],
+    shortcut: [{ url: '/favicon.ico' }],
     apple: [
       { url: '/apple-icon.png', sizes: '180x180' },
     ],
