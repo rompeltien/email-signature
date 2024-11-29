@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import { useRef, useState } from 'react'
-import { Bell, Check, Copy, Settings, Video } from 'lucide-react'
+import { Check, Copy } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
