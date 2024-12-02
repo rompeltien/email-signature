@@ -46,16 +46,26 @@ export function EmailSignatureForm() {
 
     const reelSection = includeReel && reelUrl ? `
       <div style="margin-top: 24px;">
-        <a href="${reelUrl}" 
-           target="_blank" 
-           style="color: rgb(255, 0, 78); font-size: 12px; font-weight: 400; line-height: 24px; text-decoration: none;">
-          <span style="display: inline-block; vertical-align: middle;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" style="display: inline-block; vertical-align: middle; margin-right: 4px;">
-              <path d="M23 7L16 12L23 17V7Z" fill="#FF004E"/>
-              <rect x="1" y="5" width="15" height="14" rx="2" ry="2" stroke="#FF004E" fill="none" stroke-width="2"/>
-            </svg>
-            Mira nuestro nuevo reel de proyectos
-          </span>
+        <a href="${reelUrl}" target="_blank" style="text-decoration: none; display: block;">
+          <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; max-width: 534px;">
+            <tbody>
+              <tr style="@media screen and (max-width: 480px) { display: block; }">
+                <td width="160" style="vertical-align: top; @media screen and (max-width: 480px) { display: block; width: 100%; }">
+                  <img style="width: 160px; height: 90px; display: block; object-fit: cover; @media screen and (max-width: 480px) { width: 100%; height: auto; }" 
+                       src="https://projects.rompeltien.com/mailing/cover-reel.png" 
+                       alt="20 años Redbility" />
+                </td>
+                <td width="374" style="vertical-align: top; background-color: #F9F9F9; padding: 22px 20px; @media screen and (max-width: 480px) { display: block; width: 100%; }">
+                  <div style="font-family: Verdana; font-size: 12px; font-weight: 700; color: #2F272A; line-height: 24px; text-transform: lowercase;">
+                    20 años creando experiencias memorables
+                  </div>
+                  <div style="font-family: Verdana; font-size: 12px; color: #2F272A; line-height: 24px;">
+                    ¡Gracias por ser parte en nuestro camino!
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </a>
       </div>
     ` : '';
@@ -246,15 +256,20 @@ export function EmailSignatureForm() {
                     </div>
 
                     {includeReel && (
-                      <div className="space-y-2">
-                        <Input
-                          id="reelUrl"
-                          type="url"
-                          placeholder="Pega aquí la url del vídeo"
-                          value={reelUrl}
-                          onChange={(e) => setReelUrl(e.target.value)}
-                          className="text-[16px] font-normal"
-                        />
+                      <div className="space-y-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="reelUrl" className="text-[14px] font-medium">
+                            URL del vídeo
+                          </Label>
+                          <Input
+                            id="reelUrl"
+                            type="url"
+                            placeholder="Pega aquí la url del vídeo"
+                            value={reelUrl}
+                            onChange={(e) => setReelUrl(e.target.value)}
+                            className="text-[16px] font-normal"
+                          />
+                        </div>
                       </div>
                     )}
                   </div>
@@ -330,16 +345,36 @@ export function EmailSignatureForm() {
                         </div>
                         {includeReel && reelUrl && (
                           <div style={{ marginTop: '24px' }}>
-                            <a href={reelUrl}
-                               target="_blank"
-                               style={{ fontSize: '12px', lineHeight: '24px', textDecoration: 'none', color: '#FF004E' }}>
-                              <span style={{ display: 'inline-block', verticalAlign: 'middle' }}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '4px' }}>
-                                  <path d="M23 7L16 12L23 17V7Z" fill="#FF004E"/>
-                                  <rect x="1" y="5" width="15" height="14" rx="2" ry="2" stroke="#FF004E" fill="none" strokeWidth="2"/>
-                                </svg>
-                                Mira nuestro nuevo reel de proyectos
-                              </span>
+                            <a href={reelUrl} target="_blank" style={{ textDecoration: 'none', display: 'block' }}>
+                              <table cellPadding={0} cellSpacing={0} border={0} style={{ width: '100%', maxWidth: '534px' }}>
+                                <tbody>
+                                  <tr className="md:table-row block">
+                                    <td 
+                                      width={160} 
+                                      className="md:table-cell block w-full md:w-[160px]" 
+                                      style={{ verticalAlign: 'top' }}
+                                    >
+                                      <img 
+                                        className="w-full md:w-[160px] h-auto md:h-[90px] object-cover"
+                                        src="https://projects.rompeltien.com/mailing/cover-reel.png"
+                                        alt="20 años Redbility" 
+                                      />
+                                    </td>
+                                    <td 
+                                      width={374} 
+                                      className="md:table-cell block w-full md:w-[374px] bg-[#F9F9F9] p-5"
+                                      style={{ verticalAlign: 'top' }}
+                                    >
+                                      <div className="font-['Verdana'] text-xs font-bold text-[#2F272A] leading-6 lowercase">
+                                        20 años creando experiencias memorables
+                                      </div>
+                                      <div className="font-['Verdana'] text-xs text-[#2F272A] leading-6">
+                                        ¡Gracias por ser parte en nuestro camino!
+                                      </div>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
                             </a>
                           </div>
                         )}
